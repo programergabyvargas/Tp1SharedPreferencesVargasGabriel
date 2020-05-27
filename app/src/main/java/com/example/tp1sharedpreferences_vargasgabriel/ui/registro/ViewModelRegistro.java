@@ -46,6 +46,9 @@ public class ViewModelRegistro extends AndroidViewModel {
         }
     }
 
+    public void validarFormu(){
+
+    }
 
     public void leer() {
         user = ApiClient.leer(context);
@@ -54,6 +57,10 @@ public class ViewModelRegistro extends AndroidViewModel {
 
     public void guardar(Long dni, String apellido, String nombre, String email, String pass) {
         //Pequeña validación, se puede hacer mejor. Intenté hacer una validacion usando TextInputLayout pero se me complico,por eso me quedé con éste
+        if (dni.toString().length() <= 0){
+            dni = Long.valueOf(0); //cuando etDni viene vacio tengo error en la validacion con la cadena vacia
+        }
+
         if (validarDni(dni)) {
               if (!email.equals("") && !pass.equals("")) {
                     if(validarEmail(email)) {

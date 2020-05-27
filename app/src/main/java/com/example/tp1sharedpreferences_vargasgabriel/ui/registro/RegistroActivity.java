@@ -61,10 +61,7 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //guardar objet user en preferencias
-                Long dni = Long.valueOf(0);
-                if (etDni.getText().toString().length()!= 0){
-                    dni = (Long.parseLong(etDni.getText().toString())); //cuando etDni viene vacio tengo error en la validacion con la cadena vacia
-                  }
+                Long dni = Long.parseLong(etDni.getText().toString());
                 String apellido = etApellido.getText().toString();
                 String nombre = etNombre.getText().toString();
                 String mail = etMail.getText().toString();
