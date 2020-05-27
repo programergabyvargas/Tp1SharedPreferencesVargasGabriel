@@ -2,7 +2,9 @@ package com.example.tp1sharedpreferences_vargasgabriel.ui.registro;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,6 +16,8 @@ import com.example.tp1sharedpreferences_vargasgabriel.request.ApiClient;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ViewModelRegistro extends AndroidViewModel {
     private MutableLiveData<Usuario> userLiveData;
@@ -35,28 +39,32 @@ public class ViewModelRegistro extends AndroidViewModel {
         return userLiveData;
     }
 
+    //para saber por donde entra, si por login o por registrar
+    public void ValidarEntrada(String clave){
+        if(clave.equals("l") ) {
+            leer(); // si el usuario existe, mostrar sus datos
+        }
+    }
+
+
     public void leer() {
         user = ApiClient.leer(context);
         userLiveData.setValue(user);
     }
 
-    public boolean guardar(Long dni, String apellido, String nombre, String email, String pass) {
-        boolean guardarOk = false;
-        //Log.i( "dni: " ,""+ dni);
+    public void guardar(Long dni, String apellido, String nombre, String email, String pass) {
         //Pequeña validación, se puede hacer mejor. Intenté hacer una validacion usando TextInputLayout pero se me complico,por eso me quedé con éste
         if (validarDni(dni)) {
               if (!email.equals("") && !pass.equals("")) {
                     if(validarEmail(email)) {
                         if (validarPassWord(pass)){
-                        Usuario usuario = new Usuario(dni, apellido, nombre, email, pass);
-                        ApiClient.guardar(context, usuario);
-                        guardarOk = true;
-                    }
+                             Usuario usuario = new Usuario(dni, apellido, nombre, email, pass);
+                             ApiClient.guardar(context, usuario);
+                        }
+                     }
                }
-            }
-
-        } else guardarOk = false;
-        return guardarOk;
+              Toast.makeText(getApplication(), "Los datos se han guardado Correctamente", Toast.LENGTH_LONG).show();
+         } else  Toast.makeText(getApplication(), "No se pudo guardar los datos", Toast.LENGTH_LONG).show();
     }
 
     private boolean validarDni(Long dni) {

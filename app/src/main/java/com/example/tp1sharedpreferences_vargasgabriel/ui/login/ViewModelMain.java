@@ -2,7 +2,9 @@ package com.example.tp1sharedpreferences_vargasgabriel.ui.login;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,6 +13,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.tp1sharedpreferences_vargasgabriel.model.Usuario;
 import com.example.tp1sharedpreferences_vargasgabriel.request.ApiClient;
+import com.example.tp1sharedpreferences_vargasgabriel.ui.registro.RegistroActivity;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class ViewModelMain extends AndroidViewModel {
     private MutableLiveData<Usuario> usuario;
@@ -28,17 +33,26 @@ public class ViewModelMain extends AndroidViewModel {
         return usuario;
     }
 
-    public Boolean login(String mail, String password){
-        Usuario user = ApiClient.login(context.getApplicationContext(),mail,password);
-        Log.d("user", String.valueOf(user));
-        Boolean esta=false;
-        if (user == null){
+    public void login(String mail, String password){
+        Usuario user = ApiClient.login(context,mail,password);
 
-            return esta;
-        }else if(user != null){
+        if (user == null){
+            Toast.makeText(getApplication(),  "Usuario y/o Password son incorrectas", Toast.LENGTH_LONG).show();
+        }else {
+            Intent i = new Intent(context, RegistroActivity.class);
+            i.putExtra("clave", "l"); // entra por login, user y pass valido, mostrar datos
+            i.addFlags(FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
             usuario.setValue(user);
-            esta = true;
-        }
-        return esta;
+             }
     }
+
+    public void Registrar(){
+        Intent i = new Intent(context, RegistroActivity.class);
+        i.putExtra("clave", "r"); // entra por login, user y pass valido, mostrar datos
+        i.addFlags(FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
+    }
+
+
 }

@@ -53,23 +53,14 @@ public class MainActivity extends AppCompatActivity {
                                        public void onClick(View view) {
                                            String mail = etUsuario.getText().toString();
                                            String pass = password.getText().toString();
-                                           if(viewModelMain.login(mail, pass)) {
-                                               Intent i = new Intent(getApplicationContext(), RegistroActivity.class);
-                                               i.putExtra("clave", "l"); // entra por login, user y pass valido, mostrar datos
-                                               startActivity(i);
-                                           }else {
-                                               tvMsjLogin.setText("Usuario y/o Password son incorrectas");
-                                               Toast.makeText(getApplicationContext(), "Usuario y/o Password son incorrectas", Toast.LENGTH_LONG).show();
-                                                 }
-                                       }
+                                           viewModelMain.login(mail, pass);
+                                           }
                                    });
 
         btRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i= new Intent(getApplicationContext(), RegistroActivity.class);
-                i.putExtra("clave", "r"); // entra por el botón registrarse, mostrar campos vacios
-                startActivity(i);
+                viewModelMain.Registrar();
             }
         });
 

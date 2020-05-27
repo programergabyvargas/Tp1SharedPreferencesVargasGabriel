@@ -40,11 +40,7 @@ public class RegistroActivity extends AppCompatActivity {
         viewModelRegistro = ViewModelProviders.of(this).get(ViewModelRegistro.class);
         String clave = getIntent().getStringExtra("clave");
 
-        //Log.d("calve = ", clave); //mostrar por donde viene login l, registrar r
-       if(clave.equals("l") ){
-            viewModelRegistro.leer(); // si el usuario existe, mostrar sus datos
-           tvMsj.setText(""); // si es usuario logueado, no muestro cartel
-       }
+        viewModelRegistro.ValidarEntrada(clave);
 
         final Observer<Usuario> observerUsuario = new Observer<Usuario>() { //Creo el observer
             @Override
@@ -54,6 +50,7 @@ public class RegistroActivity extends AppCompatActivity {
                 etNombre.setText(usuario.getNombre());
                 etMail.setText(usuario.getMail());
                 etPassword.setText(usuario.getPassword());
+                tvMsj.setText("");
             }
         };
 
@@ -72,30 +69,11 @@ public class RegistroActivity extends AppCompatActivity {
                 String nombre = etNombre.getText().toString();
                 String mail = etMail.getText().toString();
                 String password = etPassword.getText().toString();
-               if (viewModelRegistro.guardar(dni,apellido,nombre,mail,password)){
-                   Toast.makeText(getApplicationContext(), "Los datos se han guardado Correctamente", Toast.LENGTH_LONG).show();
-                    tvMsj.setText("Los datos se han guardado Correctamente");
-                   //setearFormulario();
-               }else {
-                   Toast.makeText(getApplicationContext(), "No se pudo guardar los datos", Toast.LENGTH_LONG).show();
-                   tvMsj.setText("No se pudo guardar los datos \n- Dni de ocho digitos (solo números) \n- Formato del Mail: ejemplo@gmail.com \n- Password: minimo de 8 digitos ");
-               }
+
+               viewModelRegistro.guardar(dni,apellido,nombre,mail,password);
             }
         });
 
-      /*   Para probar si los datos se guardaron en las preferencias
-            btnObtener.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Usuario user = new Usuario();
-                user = viewModelRegistro.leer();
-                etDni.setText(""+user.getDni());
-                etApellido.setText(""+user.getApellido());
-                etNombre.setText(""+user.getNombre());
-                etMail.setText(""+user.getMail());
-                etPassword.setText(""+user.getPassword());
-            }
-        });  */
     }
 
     private void setearFormulario(){ //
