@@ -38,13 +38,7 @@ public class ViewModelMain extends AndroidViewModel {
 
         if (user == null){
             Toast.makeText(getApplication(),  "Usuario y/o Password son incorrectas", Toast.LENGTH_LONG).show();
-        }else {
-            Intent i = new Intent(context, RegistroActivity.class);
-            i.putExtra("clave", "l"); // entra por login, user y pass valido, mostrar datos
-            i.addFlags(FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
-            usuario.setValue(user);
-             }
+        }else {usuario.setValue(user);}
     }
 
     public void Registrar(){

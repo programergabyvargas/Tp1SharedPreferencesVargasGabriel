@@ -16,6 +16,8 @@ import com.example.tp1sharedpreferences_vargasgabriel.R;
 import com.example.tp1sharedpreferences_vargasgabriel.model.Usuario;
 import com.example.tp1sharedpreferences_vargasgabriel.ui.registro.RegistroActivity;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class MainActivity extends AppCompatActivity {
     private Button btlogin, btRegistrarse;
     private EditText etUsuario;
@@ -45,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
              // para mostrar los campos vacios, cuando hago back (atras) desde el formulario registrar, como muestra el video explicativo
                etUsuario.setText("");
                password.setText("");
+                Intent i = new Intent(getApplicationContext(), RegistroActivity.class);
+                i.putExtra("clave", "l"); // entra por login, user y pass valido, mostrar datos
+                i.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+
             }
         });
 
